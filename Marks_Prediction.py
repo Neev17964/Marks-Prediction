@@ -34,9 +34,12 @@ test_data_prediction = model.predict(X_test)
 def predict_score():
     try:
         hours = float(entry.get())
-        predicted_score = model.predict(np.array([[hours]]))[0]
-        predicted_score = max(0, min(100, predicted_score)) 
-        result_label.config(text=f"📘 Predicted Exam Score: {predicted_score:.2f} / 100")
+        if hours <= 12:
+            predicted_score = model.predict(np.array([[hours]]))[0]
+            predicted_score = max(0, min(100, predicted_score)) 
+            result_label.config(text=f"📘 Predicted Exam Score: {predicted_score:.2f} / 100")
+        else:
+            result_label.config(text="⚠️ Harmful! Studying more than 12 hours\nMay affect your health.")
     except ValueError:
         messagebox.showerror("Invalid Input", "Please enter a valid number.")
 
